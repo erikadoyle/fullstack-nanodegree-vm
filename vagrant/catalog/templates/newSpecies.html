@@ -1,0 +1,50 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<!--Banner-->
+	<div class="row banner">
+		<div class="col-md-12 banner-text">
+			<div class="pnw-label">Pacific Northwest Native Plant Collection</div>
+			<div class="dept">{{category.name}}</div>
+			<div class="heading">New Species</div>
+		</div>
+	</div>
+	<!--Main content-->
+	<div class="back">
+		<a href="{{url_for('show_species', category_id = category.id)}}">
+			<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+			Back to <i>{{category.name}}</i>
+		</a>
+	</div>
+	<div class="row">
+		<div class="col-md-12 new-species-form">
+			<form action="#" method = "post">
+				<div class="form-group">
+					<div class="input-group">
+						<span class="input-group-addon" id="label-name">Name</span>
+						<input type="text" class="form-control" id="name" name="name" aria-describedby="label-name" required>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon" id="label-sci_name">Scientific Name</span>
+						<input type="text" class="form-control" id="sci_name" name="scientific_name" aria-describedby="label-sci_name" required>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon" id="label-exposure">Exposure Requirements</span>
+						<input type="text" class="form-control" id="exposure" name="exposure_reqs" aria-describedby="label-exposure" required>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon" id="label-moisture">Moisture Requirements</span>
+						<input type="text" class="form-control" id="moisture" name="moisture_reqs" aria-describedby="label-moisture" required>
+					</div>
+					<textarea id="desc" placeholder="Enter description here" name='description' required></textarea>
+					<div class="edit-btn-bar">
+						<button type="submit" class="btn btn-default" id="submit" type="submit">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							Submit
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,200 @@
+/* Global styles */
+body {
+	background: rgba(45,39,39,0.95);
+}
+.container-fluid {
+	background: white;
+}
+a {
+	color: rgba(45,39,39,0.95);;
+}
+a:hover,
+.top-header a:hover {
+	color: #82A155;
+	text-decoration: none;
+}
+.flash {
+	background-color: #F7BD33;
+}
+.back {
+	font-size: 1.3em;
+}
+.glyphicon {
+	margin-right: 10px;
+}
+.top-header {
+	float: right;
+}
+.top-header a {
+	color: white;
+	text-decoration: none;
+}
+.banner {
+	height: 300px;
+	background: url("/static/top-banner.jpg");
+	border-top: 25px solid rgba(45,39,39,0.95);
+}
+.banner .banner-text {
+	padding-top: 15px;
+	padding-left: 25px;
+	background-color: rgba(47, 57, 18, 0.42);
+	position: relative;
+	top: 20px;
+	height: 150px;
+}
+.banner .pnw-label {
+	font-family: 'Alegreya Sans', sans-serif;
+	font-style: italic;
+	font-weight: 600;
+	font-size: 2em;
+	color: #A4EA07;
+}
+.banner .heading {
+	font-weight: 600;
+	font-size: 4em;
+	color: #F5F9D0;
+	text-shadow: -4px 0px 4px rgba(0, 0, 0, 0.5);
+}
+.dept {
+	position: relative;
+	top: 15px;
+	font-weight: 500;
+	font-size: 1.5em;
+	color: #F5F9D0;
+}
+/* Departments and species listings */
+.list-box {
+	padding-top: 10px;
+	padding-bottom: 5px;
+}
+.category-list {
+ 	background-color: #E4E4E4;
+	border-width: 1px;
+	border-style: solid;
+	border-color: white;
+ }
+ .category-list:hover {
+ 	background-color: #82A155;
+	border-width: 1px;
+	border-style: solid;
+	border-color: white;
+}
+.category-list h3 {
+		display: inline-block;
+		padding-left: 15px;
+		font-family: 'Alegreya Sans', sans-serif;
+		font-style: italic;
+		font-weight: 300;
+		font-size: 2em;
+		color: black;
+}
+.category-thumbnail {
+	width: 100px;
+	height: 100px;
+	-webkit-box-shadow: -15px 0px 15px 0px rgba(98, 81, 83, 0.46);
+	-moz-box-shadow:    -15px 0px 15px 0px rgba(98, 81, 83, 0.46);
+	box-shadow:         -15px 0px 15px 0px rgba(98, 81, 83, 0.46);
+}
+.species {
+	background: #F0F0F0;
+	padding: 20px;
+	margin: 20px;
+	margin-left: -20px;
+}
+.species-list-flexbox {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.species-list {
+	margin: 20px 0 5px 0;
+	background: rgba(228, 228, 228, 0.25);
+}
+.species-list-img {
+	padding-right: 20px;
+}
+.species-list-img img {
+	height: 150px;
+	width: 150px;
+	padding: 5px 0 10px 0;
+}
+.species-list-text h3 {
+	font-family: 'Alegreya Sans', sans-serif;
+	font-style: italic;
+	font-weight: 300;
+	font-size: 2.5em;
+	color: black;
+	margin: 10px 0 0 0;
+}
+.species-list-text i {
+	font-weight: bold;
+	font-size: 1.3em;
+}
+.species-reqs {
+	display: flex;
+	flex-direction: row;
+}
+.species-reqs label {
+	font-weight: normal;
+}
+.species-reqs div {
+	margin: 10px 15px;
+	font-weight: 700;
+}
+.species-reqs .moisture {
+	color: teal;
+	font-size: 2em;
+}
+.species-reqs .exposure {
+	color: goldenrod;
+	font-size: 2em;
+}
+/* CRUD functionality */
+.btn {
+	padding: 10px;
+	border-color: #82A155;
+	border-width: 2px;
+	color: #82A155;
+	font-weight: bold;
+}
+.btn:hover, .btn:focus {
+	background: #82A155;
+	color: white;
+}
+.edit-btn-bar {
+	margin-top: 2em;
+}
+.edit-btn-bar .btn-group,
+.species-list .btn-group  {
+	float: right;
+}
+.new-species-form #desc {
+	height: 100px;
+}
+.form-group .input-group {
+	margin: 10px 0 15px 0;
+}
+.form-group textarea {
+	height: 150px;
+	width: 100%;
+}
+.delete-form {
+	margin-bottom: 20px;
+}
+.delete-form i {
+	color: #E52F5F;
+}
+/*Login page */
+.login {
+	padding-top: 15px;
+}
+.login a {
+	font-weight: bold;
+}
+.login-flexbox {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 100px;
+	padding: 25px 0 100px 0;
+}

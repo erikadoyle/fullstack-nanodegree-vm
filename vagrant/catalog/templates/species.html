@@ -1,0 +1,87 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<!--Banner-->
+	<div class="row banner">
+		<div class="col-md-12 banner-text">
+			<div class="pnw-label">Pacific Northwest Native Plant Collection</div>
+			<div class="heading">{{ category.name }}</div>
+		</div>
+	</div>
+	<div class = "row">
+		<div class="flash col-md-12">
+		{% with messages = get_flashed_messages() %}
+		  {% if messages %}
+	    <ul>
+	    {% for message in messages %}
+	        <li> <strong> {{ message }} </strong> </li>
+	    {% endfor %}
+	    </ul>
+	    {% endif %}
+		{% endwith %}
+		</div>
+	</div>
+	<!--Main content-->
+	<div class="back">
+		<a href="{{url_for('show_categories')}}">
+			<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+			Back to <i>Nursery Departments</i>
+		</a>
+	</div>
+	<div class="edit-btn-bar">
+		<a class="btn btn-default" href="{{url_for('new_species', category_id = category.id )}}" role="button">
+			<span class="glyphicon glyphicon-tree-conifer" aria-hidden="true"></span>
+			Add Species
+		</a>
+		<div class="btn-group" role="group" aria-label="...">
+			<a class="btn btn-default" href="{{url_for('edit_category', category_id = category.id )}}" role="button">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+				Edit Category
+			</a>
+			<a class="btn btn-default" href="{{url_for('delete_category', category_id = category.id )}}" role="button">
+				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+				Delete Category
+			</a>
+		</div>
+	</div>
+	{% if items !=[] %}
+	<div class="row list-box">
+		{% for s in species %}
+		<div class="species-list">
+			<div class="col-md-12 species-list-flexbox">
+				<div class="species-list-img">
+					<img />
+				</div>
+				<div class="species-list-text">
+					<h3>{{s.name}}</h3>
+					<i>{{s.scientific_name}}</i>
+					<div class="btn-group" role="group" aria-label="...">
+						<a class="btn btn-default" href='{{url_for('edit_species', category_id = category.id, species_id=s.id ) }}' >
+							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+							Edit
+						</a>
+						<a class="btn btn-default" href='{{url_for('delete_species', category_id = category.id, species_id=s.id ) }}'>
+							<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+							Delete
+						</a>
+					</div>
+					<div class="species-reqs">
+						<div>
+							<span class="exposure glyphicon glyphicon-certificate" aria-hidden="true"></span>
+							<span class="sr-only">Exposure requirements</span>
+							<label>Exposure:</label> {{s.exposure_reqs}}
+						</div>
+						<div>
+							<span class="moisture glyphicon glyphicon-tint" aria-hidden="true"></span>
+							<span class="sr-only">Moisture requirements</span>
+							<label>Moisture:</label> {{s.moisture_reqs}}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">{{s.description}}</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+{% endblock %}

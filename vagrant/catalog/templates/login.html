@@ -1,0 +1,66 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="row banner">
+  <div class="col-md-12 banner-text">
+    <div class="pnw-label">Pacific Northwest Native Plant Collection</div>
+    <div class="heading">Curator Login</div>
+  </div>
+</div>
+<div class="back">
+  <a href="{{url_for('show_categories')}}">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+    Back to <i>Nursery Departments</i>
+  </a>
+</div>
+<div class="row">
+  <div class="col-md-12 login">
+    <p>
+      You can sign in as a department curator with a
+      <a href="https://plus.google.com">Google+</a> account.
+      As a curator, you can add / edit / delete your own departments and
+      add / edit / delete species entries for those departments. You are only
+      authorized to modify the departments and species entries that you add
+      (and not those submitted by other curators).
+    </p>
+    <div class="login-flexbox">
+      <div id="signInButton">
+        <span class="g-signin"
+          data-scope="openid email"
+          data-clientid="399755393652-qlg9i2agv4glk6e3na7tktp3einboaa9.apps.googleusercontent.com"
+          data-redirecturi="postmessage"
+          data-accesstype="offline"
+          data-cookiepolicy="single_host_origin"
+          data-callback="signInCallback"
+          data-approvalprompt="force">
+        </span>
+      </div>
+      <div id="result"></div>
+    </div>
+    <script>
+      function signInCallback(authResult) {
+        if (authResult['code']) {
+          // Send the one-time-use code to the server
+          $.ajax({
+            type: 'POST',
+            url: '/gconnect?state={{STATE}}',
+            processData: false,
+            data: authResult['code'],
+            contentType: 'application/octet-stream; charset=utf-8',
+            success: function(result) {
+              // Report the server response
+              if (result) {
+                $('#result').html('Successful login as <b>'+ result + '</b>.<br />Redirecting to curator view...')
+               setTimeout(function() {
+                window.location.href = "/category";
+               }, 4000);
+              } else if (authResult['error']) {
+              console.log('There was an error logging in: ' + authResult['error'] + '</br>Please contact the site administrator for assistance.');
+          } else {
+              $('#result').html('Failed to connect to Google+.<br />Please contact the site administrator for assistance.');
+               }
+            }
+        }); } }
+    </script>
+  </div>
+</div>
+{% endblock %}

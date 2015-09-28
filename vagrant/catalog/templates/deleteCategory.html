@@ -1,0 +1,32 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<!--Banner-->
+	<div class="row banner">
+		<div class="col-md-12 banner-text">
+			<div class="pnw-label">Pacific Northwest Native Plant Collection</div>
+			<div class="heading">{{ category.name }}</div>
+		</div>
+	</div>
+	<!--Main content-->
+	<div class="back">
+		<a href="{{url_for('show_categories')}}">
+			<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+			Back to <i>Nursery Departments</i>
+		</a>
+	</div>
+	<div class="delete-form">
+		<form action="#" method='post'>
+			<div class="edit-btn-bar">
+				<div class="btn-group">
+					<button type="submit" class="btn btn-default" id="submit" type="submit">
+						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+						Delete
+					</button>
+				</div>
+			</div>
+		</form>
+		<h2> Are you sure you want to delete:<br /><i> {{category.name}}? </i></h2>
+		<div>All of the species registered to <i>{{category.name}}</i> will also be deleted.</div>
+	</div>
+{% endblock %}

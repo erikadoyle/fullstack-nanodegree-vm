@@ -1,0 +1,35 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<!--Banner-->
+	<div class="row banner">
+		<div class="col-md-12 banner-text">
+			<div class="pnw-label">Pacific Northwest Native Plant Collection</div>
+			<div class="heading">Nursery Departments</div>
+		</div>
+	</div>
+	<!--Main content-->
+	<div class = "row">
+		<div class="flash col-md-12">
+		{% with messages = get_flashed_messages() %}
+		  {% if messages %}
+	    <ul>
+	    {% for message in messages %}
+	        <li> <strong> {{ message }} </strong> </li>
+	    {% endfor %}
+	    </ul>
+	    {% endif %}
+		{% endwith %}
+		</div>
+	</div>
+	<div class="row list-box">
+		{% for category in categories %}
+	  <a href = "{{url_for('show_species', category_id = category.id)}}">
+				<div class="col-md-6 category-list">
+					<img class="category-thumbnail" />
+					<h3>{{category.name}}</h3>
+				</div>
+		</a>
+		{% endfor %}
+	</div>
+{% endblock %}
