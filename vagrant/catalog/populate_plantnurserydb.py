@@ -25,7 +25,7 @@ session.commit()
 
 # Seed the plantnursery db with some data
 # Trees
-category1 = Category(user_id=1, name="Trees")
+category1 = Category(user_id=1, name="Trees", image="Pseudotsugamenziesii.jpg")
 
 session.add(category1)
 session.commit()
@@ -40,6 +40,8 @@ species1 = Species(user_id=1,
                    " be grown in almost any native soil but will sometimes"
                    " blow down if planted in shallow soils over compacted clay"
                    " or glacial till.",
+                   image="Pseudotsugamenziesii.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category1)
 
 session.add(species1)
@@ -54,6 +56,8 @@ species2 = Species(user_id=1,
                    "achieving both height and breadth through 200-300 years."
                    " Ideal for lowland and dampish areas, it does better on"
                    " more level surfaces. ",
+                   image="Thujaplicata.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category1)
 
 session.add(species2)
@@ -69,6 +73,8 @@ species3 = Species(user_id=1,
                    "bark is dark in young trees. It has a smaller, more "
                    "delicate appearing leaf than alder and can look nice "
                    "planted in groves.",
+                   image="Betulapapyrifera.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category1)
 
 session.add(species3)
@@ -86,6 +92,8 @@ species4 = Species(user_id=1,
                    "will also grow more lankey in the forest interior and "
                    "smaller, denser in the open--where it can burn in the "
                    "afternoon sun.",
+                   image="Acercircinatum.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category1)
 
 session.add(species4)
@@ -100,13 +108,15 @@ species5 = Species(user_id=1,
                    "Red fruits provide lots of food for birds. Grows best "
                    "along forest edges with its roots protected from late "
                    "afternoon sun.",
+                   image="Cornusnuttallii.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category1)
 
 session.add(species5)
 session.commit()
 
 # Shrubs
-category2 = Category(user_id=1, name="Shrubs")
+category2 = Category(user_id=1, name="Shrubs", image="Cornussericea.jpg")
 
 session.add(category2)
 session.commit()
@@ -123,6 +133,8 @@ species1 = Species(user_id=1,
                    " on red stems. The small flowers are in large clusters"
                    " of frothy white. The berries are pale with a touch of"
                    " blue.",
+                   image="Cornussericea.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category2)
 
 session.add(species1)
@@ -141,6 +153,8 @@ species2 = Species(user_id=1,
                    " conditions, it will do its best in some shade and can"
                    " tolerate full shade. Clustered yellow flowers with"
                    " purple fruits.",
+                   image="Mahonianervosa.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category2)
 
 session.add(species2)
@@ -161,6 +175,8 @@ species3 = Species(user_id=1,
                    " where almost nothing else will, in deep understory"
                    " forest groves, moist or dry soils, in full sun or"
                    " deep shade.",
+                   image="Gaultheriashallon.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category2)
 
 session.add(species3)
@@ -174,6 +190,8 @@ species4 = Species(user_id=1,
                    description="Attractive pink blooms, and large red fruit"
                    " (hips) that persist in the winter. Covered with prickles,"
                    " aggressive spreader.",
+                   image="Rosanutkana.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category2)
 
 session.add(species4)
@@ -191,6 +209,8 @@ species5 = Species(user_id=1,
                    "thicket or wide, evergreen hedgerow. It blooms best on "
                    "forest edges but is known to bloom in dark forest as "
                    "well. Most garden rhododendron are species from Asia.",
+                   image="Rhododendronmacrophyllum.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category2)
 
 session.add(species5)
@@ -201,17 +221,18 @@ species6 = Species(user_id=1,
                    scientific_name="Spiraea douglasii",
                    moisture_reqs="moist - wet",
                    exposure_reqs="sun - part shade",
-                   description="Also known as 'hardhack'. Attractive, pink
+                   description="Also known as 'hardhack'. Attractive, pink "
                    "pyramid shaped flower "
                    "clusters. Can spread aggresively in moist environments, "
                    "but is better behaved in drier conditions.",
+                   image="Spiraeadouglasii.jpg",
                    category=category2)
 
 session.add(species6)
 session.commit()
 
 # Groundcover
-category3 = Category(user_id=1, name="Groundcover")
+category3 = Category(user_id=1, name="Groundcover", image="Iristenax.jpg")
 
 session.add(category3)
 session.commit()
@@ -222,6 +243,8 @@ species1 = Species(user_id=1,
                    moisture_reqs="moist - wet",
                    exposure_reqs="sun - part shade",
                    description="Attractive flowering blue to purple iris.",
+                   image="Iristenax.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category3)
 
 session.add(species1)
@@ -234,6 +257,8 @@ species2 = Species(user_id=1,
                    exposure_reqs="part shade - shade",
                    description="Delightful woodland strawberry with white "
                    "flowers and red fruits. Spreads.",
+                   image="Fragariavirginiana.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category3)
 
 session.add(species2)
@@ -249,6 +274,8 @@ species3 = Species(user_id=1,
                    "coast. It can be grown in forest glades, rocky slopes, "
                    "meadows, clearings and meadows. Both butterflies and "
                    "hummingbirds like this delicate dangling plant.",
+                   image="Aquilegiaformosa.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category3)
 
 session.add(species3)
@@ -263,6 +290,8 @@ species4 = Species(user_id=1,
                    "woodland wildflower is great for "
                    "adding some spring blooms in shady areas. Flower is white "
                    "to pink and appears to float above the whorl of leaves.",
+                   image="Trientalislatifolia.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category3)
 
 session.add(species4)
@@ -276,6 +305,8 @@ species5 = Species(user_id=1,
                    description="The foliage of this delicate fern forms a "
                    "delightful spreading groundcover in a woodland setting. "
                    "Spreads by rhizomes, but not aggressive.",
+                   image="Gymnocarpiumdryopteris.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category3)
 
 session.add(species5)
@@ -288,6 +319,8 @@ species6 = Species(user_id=1,
                    exposure_reqs="sun - part shade",
                    description="Beautiful spikes of bluish purple flower "
                    "clusters. Spring blooming.",
+                   image="Camassiaquamash.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category3)
 
 session.add(species6)
@@ -300,13 +333,15 @@ species7 = Species(user_id=1,
                    exposure_reqs="part shade - shade",
                    description="Attractive foliage, purplish flowers are "
                    "hidden beneath the foliage, but very beautiful when seen.",
+                   image="Asarumcaudatum.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category3)
 
 session.add(species7)
 session.commit()
 
 # Grass-like
-category4 = Category(user_id=1, name="Grass-like")
+category4 = Category(user_id=1, name="Grass-like", image="Typhalatifolia.jpg")
 
 session.add(category4)
 session.commit()
@@ -322,6 +357,8 @@ species1 = Species(user_id=1,
                    "you don't mind it spreading. The unique cigar like "
                    "flowers provide interest, while the stand themselves "
                    "provide nesting sites.",
+                   image="Typhalatifolia.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category4)
 
 session.add(species1)
@@ -337,6 +374,8 @@ species2 = Species(user_id=1,
                    " in drifts of 5 or more for a meadow like effect. They"
                    " plants ususally do a nice job of reseeding themselves."
                    " Perfect for salt water shorelines.",
+                   image="Deschampsiacespitosa.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category4)
 
 session.add(species2)
@@ -351,6 +390,8 @@ species3 = Species(user_id=1,
                    " and works well along lakes and marshes. Needs saturated"
                    " soil conditons and sun. Spreads by rhizomes. Seeds are"
                    " important food for waterfowl.",
+                   image="Scirpusacutus.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category4)
 
 session.add(species3)
@@ -364,13 +405,15 @@ species4 = Species(user_id=1,
                    description="This sedge forms widespread clumps in "
                    "estuaries. Excellent spreading sedge for salt water "
                    "shorelines.",
+                   image="Carexlyngbyei.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category4)
 
 session.add(species4)
 session.commit()
 
 # Vines
-category5 = Category(user_id=1, name="Vines")
+category5 = Category(user_id=1, name="Vines", image="Rubusursinus.jpg")
 
 session.add(category5)
 session.commit()
@@ -385,6 +428,8 @@ species1 = Species(user_id=1,
                    "blackberry likes to spread, it does not form self "
                    "supported brambles. Instead it rambles about the "
                    "landscape as a vine-like ground cover.",
+                   image="Rubusursinus.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category5)
 
 session.add(species1)
@@ -400,6 +445,8 @@ species2 = Species(user_id=1,
                    " in drifts of 5 or more for a meadow like effect. They"
                    " plants ususally do a nice job of reseeding themselves."
                    " Perfect for salt water shorelines.",
+                   image="Deschampsiacespitosa.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category5)
 
 session.add(species2)
@@ -414,6 +461,8 @@ species3 = Species(user_id=1,
                    "rather than climbing. Has very attractive pink flowers, "
                    "but can be a rather sparse bloomer. The leaves and stems "
                    "are fuzzy.",
+                   image="Lonicerahispidula.jpg",
+                   caption="(c) Greg Rabourn",
                    category=category5)
 
 session.add(species3)

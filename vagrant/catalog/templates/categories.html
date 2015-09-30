@@ -25,14 +25,14 @@
 	<div class="row list-box">
 		<a href = "{{url_for('new_category')}}">
 				<div class="col-md-6 category-list">
-					<img class="category-thumbnail" />
+					<img src="/../../images/new.jpg"  class="category-thumbnail" />
 					<h3>New department...</h3>
 				</div>
 		</a>
 		{% for category in categories %}
 	  <a href = "{{url_for('show_species', category_id = category.id)}}">
 				<div class="col-md-6 category-list">
-					<img class="category-thumbnail" />
+					<img src="/../../images/{{ category.image }}" class="category-thumbnail" />
 					<h3>{{category.name}}</h3>
 				</div>
 		</a>

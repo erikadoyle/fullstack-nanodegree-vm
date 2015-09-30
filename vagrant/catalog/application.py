@@ -1,5 +1,10 @@
+# Imports for basic web app
+import os.path
+from flask import Flask, render_template, request, redirect, jsonify, \
+url_for, flash, send_from_directory
+from werkzeug import secure_filename
+
 # Imports for database and server functionality
-from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Category, Species, User
@@ -15,7 +20,11 @@ import json
 from flask import make_response
 import requests
 
+UPLOAD_FOLDER = os.path.realpath('.') + '/images/'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
 
@@ -211,7 +220,7 @@ def gdisconnect():
         return response
 
 
-@app.route('/category/<int:category_id>/species/JSON')
+@app.route('/department/<int:category_id>/species/JSON')
 def categorySpecies_to_JSON(category_id):
     """Serializes all the species of a given department in JSON format
 
@@ -226,7 +235,7 @@ def categorySpecies_to_JSON(category_id):
     return jsonify(species=[i.serialize for i in species])
 
 
-@app.route('/category/<int:category_id>/species/<int:species_id>/JSON')
+@app.route('/department/<int:category_id>/species/<int:species_id>/JSON')
 def species_to_JSON(category_id, species_id):
     """Serializes the info for a specific species in JSON format
 
@@ -240,7 +249,7 @@ def species_to_JSON(category_id, species_id):
     return jsonify(species=species.serialize)
 
 
-@app.route('/category/JSON')
+@app.route('/department/JSON')
 def categories_to_JSON():
     """Serializes all the departments in the database to JSON format
 
@@ -251,7 +260,7 @@ def categories_to_JSON():
 
 
 @app.route('/')
-@app.route('/category/')
+@app.route('/department/')
 def show_categories():
     """Displays all the departments of the PNW Native Plant Collection db
 
@@ -265,7 +274,7 @@ def show_categories():
 
 
 # Create a new category
-@app.route('/category/new/', methods=['GET', 'POST'])
+@app.route('/department/new/', methods=['GET', 'POST'])
 def new_category():
     """Displays the 'New department' edit page
 
@@ -278,8 +287,16 @@ def new_category():
 
     # Handle POST and GET requests
     if request.method == 'POST':
+        # Based on image upload technique described at
+        # http://flask.pocoo.org/docs/0.10/patterns/fileuploads/
+        image=request.files['image']
+        if image and allowed_file(image.filename):
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         newCategory = Category(
-            name=request.form['name'], user_id=login_session['user_id'])
+            name=request.form['name'],
+            user_id=login_session['user_id'],
+            image=filename)
         session.add(newCategory)
         flash('New department created: %s' % newCategory.name)
         session.commit()
@@ -288,7 +305,7 @@ def new_category():
         return render_template('newCategory.html')
 
 
-@app.route('/category/<int:category_id>/edit/', methods=['GET', 'POST'])
+@app.route('/department/<int:category_id>/edit/', methods=['GET', 'POST'])
 def edit_category(category_id):
     """Displays the edit page for a specific department
 
@@ -319,13 +336,19 @@ def edit_category(category_id):
     if request.method == 'POST':
         if request.form['name']:
             editedCategory.name = request.form['name']
-            flash('Edited category: %s' % editedCategory.name)
-            return redirect(url_for('show_species', category_id=category_id))
+        if request.files['image']:
+            image=request.files['image']
+            if allowed_file(image.filename):
+                filename = secure_filename(image.filename)
+                image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                editedCategory.image = filename
+        flash('Edited category: %s' % editedCategory.name)
+        return redirect(url_for('show_species', category_id=category_id))
     else:
         return render_template('editCategory.html', category=editedCategory)
 
 
-@app.route('/category/<int:category_id>/delete/', methods=['GET', 'POST'])
+@app.route('/department/<int:category_id>/delete/', methods=['GET', 'POST'])
 def delete_category(category_id):
     """Displays the delete page for a specific department
 
@@ -354,12 +377,15 @@ def delete_category(category_id):
 
     # Handle POST and GET requests
     if request.method == 'POST':
-        # Delete the category
+        # Delete the image and category
+        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], categoryToDelete.image))
         session.delete(categoryToDelete)
         # Delete its associated species
         speciesToDelete = session.query(Species).filter_by(
                 category_id=category_id).all()
         for species in speciesToDelete:
+            # First delete the associated image
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], species.image))
             session.delete(species)
         flash('Deleted department: %s' % categoryToDelete.name)
         session.commit()
@@ -369,8 +395,19 @@ def delete_category(category_id):
                                category=categoryToDelete)
 
 
-@app.route('/category/<int:category_id>/')
-@app.route('/category/<int:category_id>/species/')
+@app.route('/images/<filename>')
+def uploaded_file(filename):
+    """Serves the image files for the site
+
+    Returns (serves) the HTTP requested image
+    """
+    # From sample code at http://flask.pocoo.org/docs/0.10/patterns/fileuploads/
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
+
+
+@app.route('/department/<int:category_id>/')
+@app.route('/department/<int:category_id>/species/')
 def show_species(category_id):
     """Displays all the species for a given department
 
@@ -389,14 +426,26 @@ def show_species(category_id):
     if 'username' not in login_session \
             or creator.id != login_session['user_id']:
         return render_template('publicSpecies.html', species=species,
-                               category=category, creator=creator)
+                               category=category)
     else:
         return render_template('species.html', species=species,
-                               category=category, creator=creator)
+                               category=category)
+
+
+def allowed_file(filename):
+    """Checks a file name to determine if its file type is supported
+
+    Args: name of the file (e.g., 'mypicture.jpg')
+
+    Returns true if file type is allowed, false otherwise
+    """
+    # From sample code at http://flask.pocoo.org/docs/0.10/patterns/fileuploads/
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route(
-    '/category/<int:category_id>/species/new/', methods=['GET', 'POST'])
+    '/department/<int:category_id>/species/new/', methods=['GET', 'POST'])
 def new_species(category_id):
     """Displays the species add page for a specific department
 
@@ -424,11 +473,20 @@ def new_species(category_id):
 
     # Handle POST and GET requests
     if request.method == 'POST':
+        # Based on image upload technique described at
+        # http://flask.pocoo.org/docs/0.10/patterns/fileuploads/
+        image=request.files['image']
+        if image and allowed_file(image.filename):
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        caption = request.form['caption'] if request.form['caption'] else ""
         newSpecies = Species(name=request.form['name'],
                              scientific_name=request.form['scientific_name'],
                              moisture_reqs=request.form['moisture_reqs'],
                              exposure_reqs=request.form['exposure_reqs'],
                              description=request.form['description'],
+                             image=filename,
+                             caption=caption,
                              category_id=category_id,
                              user_id=category.user_id)
         session.add(newSpecies)
@@ -440,7 +498,7 @@ def new_species(category_id):
                                category_id=category_id)
 
 
-@app.route('/category/<int:category_id>/species/<int:species_id>/edit',
+@app.route('/department/<int:category_id>/species/<int:species_id>/edit',
            methods=['GET', 'POST'])
 def edit_species(category_id, species_id):
     """Displays the edit page for a specific species
@@ -470,6 +528,16 @@ def edit_species(category_id, species_id):
 
     # Handle POST and GET requests
     if request.method == 'POST':
+        # Based on image upload technique described at
+        # http://flask.pocoo.org/docs/0.10/patterns/fileuploads/
+        if request.files['image']:
+            image=request.files['image']
+            if allowed_file(image.filename):
+                filename = secure_filename(image.filename)
+                image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                editedItem.image = filename
+        if request.form['caption']:
+            editedItem.caption = request.form['caption']
         if request.form['name']:
             editedItem.name = request.form['name']
         if request.form['scientific_name']:
@@ -489,7 +557,7 @@ def edit_species(category_id, species_id):
             species_id=species_id, species=editedItem, category=category)
 
 
-@app.route('/category/<int:category_id>/species/<int:species_id>/delete',
+@app.route('/department/<int:category_id>/species/<int:species_id>/delete',
            methods=['GET', 'POST'])
 def delete_species(category_id, species_id):
     """Displays the delete page for a specific species
@@ -519,6 +587,10 @@ def delete_species(category_id, species_id):
 
     # Handle POST and GET requests
     if request.method == 'POST':
+        # Delete the image
+        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], itemToDelete.image))
+
+        # Delete the database entry
         session.delete(itemToDelete)
         session.commit()
         flash('Deleted species: %s' % itemToDelete.name)

@@ -49,9 +49,10 @@
 		{% for s in species %}
 		<div class="species-list">
 			<div class="col-md-12 species-list-flexbox">
-				<div class="species-list-img">
-					<img />
-				</div>
+				<figure class="species-list-img">
+					<img src="/../../images/{{ s.image }}" />
+					<figcaption>{{ s.caption }}</figcaption>
+				</figure>
 				<div class="species-list-text">
 					<h3>{{s.name}}</h3>
 					<i>{{s.scientific_name}}</i>
