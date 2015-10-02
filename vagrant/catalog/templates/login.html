@@ -51,7 +51,7 @@
               if (result) {
                 $('#result').html('Successful login as <b>'+ result + '</b>.<br />Redirecting to curator view...')
                setTimeout(function() {
-                window.location.href = "/category";
+                window.location.href = "/department";
                }, 4000);
               } else if (authResult['error']) {
               console.log('There was an error logging in: ' + authResult['error'] + '</br>Please contact the site administrator for assistance.');

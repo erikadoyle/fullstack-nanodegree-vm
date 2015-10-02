@@ -22,11 +22,13 @@ import requests
 
 UPLOAD_FOLDER = os.path.realpath('.') + '/images/'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+CLIENT_ID = json.loads(
+    open('client_secrets.json', 'r').read())['web']['client_id']
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+
 
 # Create a database dngine and connect it to the db
 engine = create_engine('sqlite:///plantnursery.db')
@@ -327,7 +329,7 @@ def edit_category(category_id):
         authError += "  Please create your own department in order to edit."
         authError += "  <script>"
         authError += "      setTimeout(function() {"
-        authError += "          window.location.href = '/category';"
+        authError += "          window.location.href = '/department';"
         authError += "      }, 2000);"
         authError += "  </script>"
         return authError
@@ -370,7 +372,7 @@ def delete_category(category_id):
         authError += "  Please create your own department in order to delete."
         authError += "  <script>"
         authError += "      setTimeout(function() {"
-        authError += "          window.location.href = '/category';"
+        authError += "          window.location.href = '/department';"
         authError += "      }, 2000);"
         authError += "  </script>"
         return authError
@@ -466,7 +468,7 @@ def new_species(category_id):
         authError += "  department. Please create your own department."
         authError += "  <script>"
         authError += "      setTimeout(function() {"
-        authError += "          window.location.href = '/category';"
+        authError += "          window.location.href = '/department';"
         authError += "      }, 2000);"
         authError += "  </script>"
         return authError
@@ -521,7 +523,7 @@ def edit_species(category_id, species_id):
         authError += "  department. Please create your own department."
         authError += "  <script>"
         authError += "      setTimeout(function() {"
-        authError += "          window.location.href = '/category';"
+        authError += "          window.location.href = '/department';"
         authError += "      }, 2000);"
         authError += "  </script>"
         return authError
@@ -580,7 +582,7 @@ def delete_species(category_id, species_id):
         authError += "  department. Please create your own department."
         authError += "  <script>"
         authError += "      setTimeout(function() {"
-        authError += "          window.location.href = '/category';"
+        authError += "          window.location.href = '/department';"
         authError += "      }, 2000);"
         authError += "  </script>"
         return authError
